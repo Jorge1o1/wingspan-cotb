@@ -1,13 +1,26 @@
 // Learn more about F# at http://docs.microsoft.com/dotnet/fsharp
 
 open System
-
-// Define a function to construct a message to print
-let from whom =
-    sprintf "from %s" whom
+open WingspanCOTB
+open WingspanCOTB.Game
+open WingspanCOTB.Player.HumanPlayer
+open WingspanCOTB.Player.AutomaPlayer
+open WingspanCOTB.Data
 
 [<EntryPoint>]
 let main argv =
-    let message = from "F#" // Call the function
-    printfn "Hello world %s" message
-    0 // return an integer exit code
+    let config = {
+        StartingChoices = Week35.startingChoices
+        BonusCardChoices = Week35.bonusCardChoices
+    }
+    let player1 = { HumanPlayer.Name = "Jorge"; Hand = []; Supply = []; Board = Board.empty}
+    let player2 = { AutomaPlayer.Name = "QT-1"; Moves = Week35.automaMoves}
+    let game = {
+        Phase = PickBirdsAndFood(Week35.startingChoices)
+        Config = config
+        CurrentPlayer = player1
+        OtherPlayer = player2
+    }
+    let (winner, score) = loop game
+    printfn "Congratulations %s! You had %i points!" winner.Name score
+    1
