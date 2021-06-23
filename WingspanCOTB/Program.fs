@@ -13,7 +13,7 @@ let main argv =
         StartingChoices = Week35.startingChoices
         BonusCardChoices = Week35.bonusCardChoices
     }
-    let player1 = { HumanPlayer.Name = "Jorge"; Hand = []; Supply = []; Board = Board.empty}
+    let player1 = { HumanPlayer.Name = "Jorge"; Board = Board.empty; Hand = []; Supply = []; BonusCards = [] }
     let player2 = { AutomaPlayer.Name = "QT-1"; Moves = Week35.automaMoves}
     let game = {
         Phase = PickBirdsAndFood(Week35.startingChoices)

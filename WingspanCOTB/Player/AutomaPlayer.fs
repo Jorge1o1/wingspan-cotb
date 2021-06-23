@@ -9,15 +9,15 @@ module AutomaPlayer =
             Moves: Move list
         }
 
-        member this.Prompt state =
+        member this.Prompt(state) =
             match this.Moves with
             | hd :: tl -> hd
             | [] -> raise (System.IndexOutOfRangeException("No more Automa moves"))
         
-        member this.Apply game move =
+        member this.Apply(game, move) =
             { game with CurrentPlayer = { this with Moves = this.Moves.Tail}}
         
         interface IPlayer with
             member this.Name = this.Name
-            member this.Prompt state = this.Prompt state
-            member this.Apply game move = this.Apply game move
+            member this.Prompt(game) = this.Prompt(game)
+            member this.Apply(game, move) = this.Apply(game, move)

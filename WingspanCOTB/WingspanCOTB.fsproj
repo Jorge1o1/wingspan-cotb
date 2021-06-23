@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Food.fs" />
     <Compile Include="Bird.fs" />
+    <Compile Include="StartingChoice.fs" />
     <Compile Include="Board.fs" />
     <Compile Include="BonusCard.fs" />
     <Compile Include="Game.fs" />

@@ -2,13 +2,9 @@ namespace WingspanCOTB
 
 module Game =
     open WingspanCOTB.Food
-    open WingspanCOTB.Bird
-    open WingspanCOTB.Board
+    open WingspanCOTB.StartingChoice
     open WingspanCOTB.BonusCard
 
-    type StartingChoice =
-        | PickBird of Bird
-        | PickFood of Food  
     type Config = {
         StartingChoices : StartingChoice list
         BonusCardChoices: IBonusCard list
@@ -28,8 +24,6 @@ module Game =
         | AutomaRemoveFromGoal
         | AutomaActivateAllPink
         | Chain of Move list
-    type PickBirdsAndFoodPhase = StartingChoice list
-    and PickBonusCardsPhase = IBonusCard list
     and InProgressPhase = {
         Round: int
         Turn: int
@@ -39,14 +33,14 @@ module Game =
         Score: int
     }
     and Phase =
-        | PickBirdsAndFood of PickBirdsAndFoodPhase
-        | PickBonusCards of PickBonusCardsPhase
+        | PickBirdsAndFood of StartingChoice list
+        | PickBonusCards of IBonusCard list
         | InProgress of InProgressPhase
         | Final of FinalPhase
     and IPlayer = 
         abstract member Name: string
         abstract member Prompt: Game -> Move
-        abstract member Apply: Game -> Move -> Game
+        abstract member Apply: Game * Move -> Game
     and Game = {
         Phase: Phase
         Config: Config
@@ -55,7 +49,7 @@ module Game =
     }
          
     let advance game move =
-        let nextState = game.CurrentPlayer.Apply game move
+        let nextState = game.CurrentPlayer.Apply(game, move)
         match (move, game.Phase) with
         | (Move.PickBirdsAndFood _, _) -> { nextState with Phase = PickBonusCards(nextState.Config.BonusCardChoices)}
         | (Move.PickBonusCard _, _) -> { nextState with Phase = InProgress({Round = 0; Turn = 0})}

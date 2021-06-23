@@ -4,6 +4,7 @@ module Week35 =
     open WingspanCOTB
     open WingspanCOTB.Game
     open WingspanCOTB.Food
+    open WingspanCOTB.StartingChoice
 
     let automaBonusCard = BonusCards.Anatomist
     let automaMoves = [
@@ -19,5 +20,6 @@ module Week35 =
     ]
     let startingChoices = [
         PickBird(Birds.BroadWingedHawk); PickBird(Birds.PaintedWhitestart); PickBird(Birds.Brant); 
-        PickBird(Birds.VauxsSwift); PickBird(Birds.RedBreastedMerganser); PickFood(Food.Fruit)]
+        PickBird(Birds.VauxsSwift); PickBird(Birds.RedBreastedMerganser); PickFood(Food.Fruit);
+        PickFood(Food.Seed); PickFood(Food.Invertebrate); PickFood(Food.Rodent); PickFood(Food.Fish)]
     let bonusCardChoices = [ BonusCards.WetlandScientist; BonusCards.LargeBirdSpecialist ]
