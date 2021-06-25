@@ -17,3 +17,5 @@ module Board =
 
     let getAllBirds board =
         board.Forest @ board.Grassland @ board.Ocean
+
+    let numCardsDrawable board = (board.Ocean.Length / 2) + 1

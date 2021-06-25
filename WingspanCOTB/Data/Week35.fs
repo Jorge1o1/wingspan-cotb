@@ -23,3 +23,9 @@ module Week35 =
         PickBird(Birds.VauxsSwift); PickBird(Birds.RedBreastedMerganser); PickFood(Food.Fruit);
         PickFood(Food.Seed); PickFood(Food.Invertebrate); PickFood(Food.Rodent); PickFood(Food.Fish)]
     let bonusCardChoices = [ BonusCards.WetlandScientist; BonusCards.LargeBirdSpecialist ]
+    let birdfeeder = [
+        Fruit; InvertebrateOrSeed; InvertebrateOrSeed; Fish; Fish; InvertebrateOrSeed; Seed; Seed; 
+        Seed; Fish; Seed]
+    let birdDeck = [
+        Birds.YellowBelliedSapsucker; Birds.GreatEgret; Birds.TreeSwallow
+    ]

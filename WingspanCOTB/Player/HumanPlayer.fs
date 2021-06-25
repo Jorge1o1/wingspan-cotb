@@ -3,33 +3,23 @@ namespace WingspanCOTB.Player
 module rec HumanPlayer =
     open WingspanCOTB
     open WingspanCOTB.Game
-    open WingspanCOTB.Bird
-    open WingspanCOTB.Board
     open WingspanCOTB.StartingChoice
-    open WingspanCOTB.Food
+    open WingspanCOTB.Player.PlayerState
 
     type HumanPlayer =
         { 
             Name: string
-            Board: Board
-            Hand: Bird list
-            Supply: Food list
-            BonusCards: BonusCard.IBonusCard list
-         }
+            State: PlayerState
+        }
 
         member this.Prompt(game) =
             match game.Phase with
             | PickBirdsAndFood choices -> promptPickBirdsAndFood choices
             | PickBonusCards choices -> promptPickBonusCard choices
-            | _ -> PlayBird
+            | _ -> DrawCards
 
         member this.Apply(game, move) =
-            match move with
-            | Move.PickBirdsAndFood choices -> 
-                let newplayer = List.fold addStartingChoice this choices
-                { game with CurrentPlayer = newplayer}
-            | Move.PickBonusCard bc -> { game with CurrentPlayer = addBonusCard bc this }
-            | _ -> game
+            { game with CurrentPlayer = { this with State = this.State.Apply(game, move)}}
         
         interface IPlayer with
             member this.Name = this.Name
@@ -41,13 +31,17 @@ module rec HumanPlayer =
         Seq.iter (printfn "\t%O") allChoices
         printfn "Your turn! Type in choices separated by semicolon: "
         let inputs = System.Console.ReadLine().Split(';')
-        let choices = Array.toList <| Array.map (lookupByName allChoices) inputs
-        try
-            Move.PickBirdsAndFood(List.map Option.get choices)
-        with
-        | :? System.ArgumentException ->
-            printfn "Bad input!"
-            promptPickBirdsAndFood allChoices           
+        if inputs.Length <> 5 then
+            printfn "Pick only 5!"
+            promptPickBirdsAndFood allChoices    
+        else
+            let choices = Array.toList <| Array.map (lookupByName allChoices) inputs
+            try
+                Move.PickBirdsAndFood(List.map Option.get choices)
+            with
+            | :? System.ArgumentException ->
+                printfn "Bad input!"
+                promptPickBirdsAndFood allChoices           
 
     let rec promptPickBonusCard allChoices =
         printfn "Time to Pick Bonus Card. Please Choose From:"
@@ -60,17 +54,3 @@ module rec HumanPlayer =
         | None ->
             printfn "Bad input!"
             promptPickBonusCard allChoices
-
-    let addFood food player =
-        { player with Supply = food :: player.Supply }
-
-    let addBird bird player =
-        { player with Hand = bird :: player.Hand }
-    
-    let addBonusCard bc player =
-        { player with BonusCards = bc :: player.BonusCards }
-    
-    let addStartingChoice player choice  =
-        match choice with
-        | PickFood f -> addFood f player
-        | PickBird b -> addBird b player

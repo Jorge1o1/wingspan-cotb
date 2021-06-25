@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Util.fs" />
     <Compile Include="Food.fs" />
     <Compile Include="Bird.fs" />
     <Compile Include="StartingChoice.fs" />
@@ -13,7 +14,9 @@
     <Compile Include="BonusCard.fs" />
     <Compile Include="Game.fs" />
     <Compile Include="Player/AutomaPlayer.fs" />
+    <Compile Include="Player/PlayerState.fs" />
     <Compile Include="Player/HumanPlayer.fs" />
+    <Compile Include="Player/RandomPlayer.fs" />
     <Compile Include="Data/Birds.fs" />
     <Compile Include="Data/BonusCards.fs" />
     <Compile Include="Data/Week35.fs" />
