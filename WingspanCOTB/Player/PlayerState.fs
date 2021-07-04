@@ -16,11 +16,15 @@ module rec PlayerState =
             BonusCards: IBonusCard list
         }
 
-        member this.Apply(game, move) =
+        member this.ApplyStartingChoices(choices) =
+            List.fold applyStartingChoice this choices
+        
+        member this.ApplyStartingBonusCard(choice) =
+            addBonusCard this choice
+
+        member this.ApplyAction(game, move) =
             match move with
-            | Move.PickBirdsAndFood choices -> List.fold applyStartingChoices this choices
-            | Move.PickBonusCard bc ->  addBonusCard this bc 
-            | Move.DrawCards -> applyDrawCards this move game
+            | Action.DrawCards -> applyDrawCards this game
             | _ -> this
 
     let empty = { Board = Board.empty; Hand = []; Supply = []; BonusCards = []}
@@ -34,19 +38,11 @@ module rec PlayerState =
     let addBonusCard ps bc =
         { ps with BonusCards = bc :: ps.BonusCards }
 
-    let applyStartingChoices ps choice  =
+    let applyStartingChoice ps choice  =
         match choice with
         | PickFood f -> addFood ps f
         | PickBird b -> addBird ps b
     
-    let applyDrawCards ps move game = 
-        let cardsDrawn = List.take (Board.numCardsDrawable ps.Board) game.Config.Deck
+    let applyDrawCards ps game = 
+        let cardsDrawn = List.take (Board.numCardsDrawable ps.Board) game.Deck
         List.fold addBird ps cardsDrawn
-
-
-
-        // let applyDrawCards game player =
-    //     let cardsDrawn = List.take (numCardsDrawable player.Board) game.Config.Deck
-    //     let newDeck = List.skip (numCardsDrawable player.Board) game.Config.Deck
-    //     
-    //     { game with CurrentPlayer = newPlayer; Config = { game.Config with Deck = newDeck}}

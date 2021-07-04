@@ -18,3 +18,6 @@ module StartingChoice =
             Some(List.find (fun sc -> sc.ToString().ToUpper() = name.ToUpper()) choices)
         with
             | :? KeyNotFoundException -> None
+
+    let legalCombinations (choices : StartingChoice list) =
+        Util.comb 5 choices

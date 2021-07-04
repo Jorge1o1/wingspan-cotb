@@ -12,26 +12,30 @@ module rec RandomPlayer =
             State: PlayerState
          }
 
-        member this.Prompt(game) =
+        member this.PromptStartingChoices(game, choices) =
+            let possibleMoves = StartingChoice.legalCombinations choices
+            let index = this.RNG.Next(0,possibleMoves.Length)
+            List.item index possibleMoves
+
+        member this.PromptStartingBonusCard(game, choices : BonusCard.IBonusCard list) =
+            let index = this.RNG.Next(0,choices.Length)
+            List.item index choices
+
+        member this.PromptAction(game) =
             match game.Phase with
-            | PickBirdsAndFood choices -> promptPickBirdsAndFood choices this.RNG
-            | PickBonusCards choices -> promptPickBonusCard choices this.RNG
             | _ -> DrawCards
 
-        member this.Apply(game, move) =
-            { game with CurrentPlayer = { this with State = this.State.Apply(game, move)}}
+        member this.CanUseBirdPower(game) = false
         
         interface IPlayer with
             member this.Name = this.Name
-            member this.Prompt(game) = this.Prompt(game)
-            member this.Apply(game, move) = this.Apply(game, move)
-
-
-    let rec promptPickBirdsAndFood allChoices rng =
-        let legalMoves = Util.comb 5 allChoices
-        let index = rng.Next(0,legalMoves.Length)
-        Move.PickBirdsAndFood(List.item index legalMoves)   
-
-    let rec promptPickBonusCard allChoices rng =
-        let index = rng.Next(0,allChoices.Length)
-        Move.PickBonusCard(List.item index allChoices)
+            member this.PromptStartingChoices(game, choices) = this.PromptStartingChoices(game, choices)
+            member this.PromptStartingBonusCard(game, choices) = this.PromptStartingBonusCard(game, choices)
+            member this.PromptAction(game) = this.PromptAction(game)
+            member this.CanUseBirdPower(game) = this.CanUseBirdPower(game)
+            member this.ApplyStartingChoices(choices) = 
+                { this with State = this.State.ApplyStartingChoices choices } :> IPlayer
+            member this.ApplyStartingBonusCard(choice) = 
+                { this with State = this.State.ApplyStartingBonusCard choice } :> IPlayer
+            member this.ApplyAction(game, move) =
+                { this with State = this.State.ApplyAction(game, move)} :> IPlayer

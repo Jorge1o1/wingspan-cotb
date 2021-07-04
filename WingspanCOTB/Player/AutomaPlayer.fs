@@ -6,18 +6,21 @@ module AutomaPlayer =
     type AutomaPlayer =
         { 
             Name: string
-            Moves: Move list
+            Moves: Action list
         }
 
-        member this.Prompt(state) =
-            match this.Moves with
-            | hd :: tl -> hd
-            | [] -> raise (System.IndexOutOfRangeException("No more Automa moves"))
+        member this.PromptAction(game) = this.Moves.Head
         
         member this.Apply(game, move) =
-            { game with CurrentPlayer = { this with Moves = this.Moves.Tail}}
+            // TODO: the scorekeeping and stuff
+            { this with Moves = this.Moves.Tail } :> IPlayer
         
         interface IPlayer with
             member this.Name = this.Name
-            member this.Prompt(game) = this.Prompt(game)
-            member this.Apply(game, move) = this.Apply(game, move)
+            member this.PromptStartingChoices(_,_) = raise (System.NotSupportedException("Automa"))
+            member this.PromptStartingBonusCard(_,_) = raise (System.NotSupportedException("Automa"))
+            member this.ApplyStartingChoices(_) = raise (System.NotSupportedException("Automa"))
+            member this.ApplyStartingBonusCard(_) = raise (System.NotSupportedException("Automa"))
+            member this.PromptAction(game) = this.Moves.Head
+            member this.ApplyAction(game, move) = this.Apply(game, move)
+            member this.CanUseBirdPower(game) = false

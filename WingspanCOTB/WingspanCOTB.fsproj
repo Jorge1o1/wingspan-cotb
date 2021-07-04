@@ -15,7 +15,7 @@
     <Compile Include="Game.fs" />
     <Compile Include="Player/AutomaPlayer.fs" />
     <Compile Include="Player/PlayerState.fs" />
-    <Compile Include="Player/HumanPlayer.fs" />
+    <!-- <Compile Include="Player/HumanPlayer.fs" /> -->
     <Compile Include="Player/RandomPlayer.fs" />
     <Compile Include="Data/Birds.fs" />
     <Compile Include="Data/BonusCards.fs" />

@@ -10,111 +10,104 @@ module Game =
         StartingChoices : StartingChoice list
         BonusCardChoices: IBonusCard list
         BirdfeederSeries: FoodDie list
-        Deck: Bird.Bird list
     }
-    type Move =
-        | PickBirdsAndFood of StartingChoice list
-        | PickBonusCard of IBonusCard
-        | PlayBird of Bird.Bird
-        | GainFood
-        | LayEggs
-        | DrawCards
+    type AutomaPrimary =
         | AutomaDrawCards
         | AutomaPlayBirds
         | AutomaLayEggs of int
-        | AutomaGainFood of FoodDie list
+        | AutomaGainFood of FoodDie list 
+    type AutomaSecondary = 
         | AutomaAddToGoal
         | AutomaRemoveFromGoal
         | AutomaActivateAllPink
-        | Chain of Move list
-    and InProgressPhase = {
+    type Action =
+        | DrawCards
+        | GainFood
+        | PlayBird of Bird.Bird
+        | LayEggs of Bird.Bird list
+        | AutomaMove of AutomaPrimary * AutomaSecondary
+    type InProgressState = {
         Round: int
         Turn: int
-        Tray: Bird.Bird list
-        Birdfeeder: FoodDie list
     }
-    and FinalPhase = {
+    type FinalState = {
         Winner: IPlayer
         Score: int
     }
     and Phase =
         | PickBirdsAndFood of StartingChoice list
         | PickBonusCards of IBonusCard list
-        | InProgress of InProgressPhase
-        | Final of FinalPhase
-    and IPlayer = 
-        abstract member Name: string
-        abstract member Prompt: Game -> Move
-        abstract member Apply: Game * Move -> Game //TODO: should return IPlayer?
+        | PickAction of InProgressState
+        | PickBirdPower
+        | EndOfTurn
+        | Final of FinalState
     and Game = {
         Phase: Phase
         Config: Config
         CurrentPlayer: IPlayer
         OtherPlayer: IPlayer
+        Deck: Bird.Bird list
+        Tray: Bird.Bird list
+        Birdfeeder: FoodDie list
     }
+    and IPlayer = 
+        abstract member Name: string
+        abstract member PromptStartingChoices: Game * StartingChoice list -> StartingChoice list
+        abstract member ApplyStartingChoices: StartingChoice list -> IPlayer
+        abstract member PromptStartingBonusCard: Game * IBonusCard list -> IBonusCard
+        abstract member ApplyStartingBonusCard: IBonusCard -> IPlayer
+        abstract member PromptAction: Game -> Action
+        abstract member ApplyAction: Game * Action -> IPlayer
+        abstract member CanUseBirdPower: Game -> bool
 
     let rerollBirdfeeder game =
-        let (InProgress ipPhase) = game.Phase
         let nextDice = List.take 5 game.Config.BirdfeederSeries
         let bfSeries = List.skip 5 game.Config.BirdfeederSeries
         { game with
-            Phase = InProgress({ ipPhase with Birdfeeder = nextDice})
+            Birdfeeder = nextDice
             Config = {game.Config with BirdfeederSeries = bfSeries}
         }
 
     let refillTray game =
-        let (InProgress ipPhase) = game.Phase
-        let n = 3 - ipPhase.Tray.Length
-        let newTray = (List.take n game.Config.Deck) @ ipPhase.Tray
-        let remainingDeck = List.skip n game.Config.Deck
+        let n = 3 - game.Tray.Length
         { game with
-            Phase = InProgress({ ipPhase with Tray = newTray})
-            Config = {game.Config with Deck = remainingDeck}
+            Tray = (List.take n game.Deck) @ game.Tray
+            Deck = List.skip n game.Deck
+        }
+    
+    let applyStartingChoices game choices =
+        { game with 
+            CurrentPlayer = game.CurrentPlayer.ApplyStartingChoices(choices)
+            Phase = PickBonusCards(game.Config.BonusCardChoices)
         }
 
-    let advanceToInProgress game = 
-        { game with Phase = InProgress({Round = 1; Turn = 0; Birdfeeder = []; Tray = []})}
-        |> rerollBirdfeeder
-        |> refillTray
-    
-    let advanceToFinal game = 
-        { game with Phase = Final({Winner = game.CurrentPlayer; Score = 10})}
+    let applyStartingBonusCard game choice =
+        { game with 
+            CurrentPlayer = game.CurrentPlayer.ApplyStartingBonusCard(choice)
+            Phase = PickAction({Round = 1; Turn = 0;})
+        } |> rerollBirdfeeder |> refillTray
 
-    let isEndOfRound phase = (phase.Round * 2) + phase.Turn = 18
-
-    let advanceToNextRound game =
-        game
-
-    let applyPostTurn game move phase =
-        refillTray game
-
-    let applyPinkMove game moveOption phase =
-        game
-
-    let advanceWithinRound game move phase =
-        let next = applyPostTurn game move phase
-        let pinkMove = None // Promt for pink here
-        let next = applyPinkMove next pinkMove phase
-        { next with 
-            CurrentPlayer = game.OtherPlayer
-            OtherPlayer = game.CurrentPlayer
-            Phase = InProgress({phase with Turn = phase.Turn + 1})}
-
-    let advance game move =
-        let nextState = game.CurrentPlayer.Apply(game, move)
-        match (move, game.Phase) with
-        | (Move.PickBirdsAndFood _, PickBirdsAndFood _) -> { nextState with Phase = PickBonusCards(nextState.Config.BonusCardChoices)}
-        | (Move.PickBonusCard _, PickBonusCards _) -> advanceToInProgress nextState
-        | (_, InProgress p) when p.Round = 4 && isEndOfRound p -> advanceToFinal game
-         // be careful here, pinks should fire after last turn but not during endofround
-        | (_, InProgress p) when isEndOfRound p -> advanceToNextRound game
-        | (_, InProgress p) -> advanceWithinRound game move p
-        | (_, _) -> raise (System.ArgumentException("Unsupported combination of move and phase"))
+    let applyAction game action =
+        // First we modify the player's state
+        let game = { game with CurrentPlayer = game.CurrentPlayer.ApplyAction(game, action) }
+        // TODO: here modify the game's state
+        let nextPhase = 
+            match game.CurrentPlayer.CanUseBirdPower(game) with
+            | true -> PickBirdPower
+            | false -> EndOfTurn
+        { game with Phase = nextPhase }
 
     let rec loop game =
         match game.Phase with
+        | PickBirdsAndFood allChoices ->
+            let choices = game.CurrentPlayer.PromptStartingChoices(game, allChoices)
+            loop (applyStartingChoices game choices)
+        | PickBonusCards allChoices ->
+            let choice = game.CurrentPlayer.PromptStartingBonusCard(game, allChoices)
+            loop (applyStartingBonusCard game choice)
+        | PickAction pa ->
+            let action = game.CurrentPlayer.PromptAction(game)
+            loop (applyAction game action)
+        | PickBirdPower _ -> raise (System.NotImplementedException())
+        | EndOfTurn _ -> raise (System.NotImplementedException())
         | Final f -> (f.Winner, f.Score)
-        | s ->
-            let move = game.CurrentPlayer.Prompt(game)
-            let nextState = advance game move
-            loop nextState

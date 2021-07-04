@@ -5,7 +5,7 @@ open WingspanCOTB
 open WingspanCOTB.Game
 open WingspanCOTB.Player.RandomPlayer
 open WingspanCOTB.Player.AutomaPlayer
-open WingspanCOTB.Player 
+open WingspanCOTB.Player
 open WingspanCOTB.Data
 
 [<EntryPoint>]
@@ -14,7 +14,6 @@ let main argv =
         StartingChoices = Week35.startingChoices
         BonusCardChoices = Week35.bonusCardChoices
         BirdfeederSeries = Week35.birdfeeder
-        Deck = Week35.birdDeck
     }
     // let player1 = { HumanPlayer.Name = "Jorge"; Board = Board.empty; Hand = []; Supply = []; BonusCards = [] }
     let player1 = { RandomPlayer.Name = "RND"; RNG = Random(123); State = PlayerState.empty}
@@ -24,6 +23,9 @@ let main argv =
         Config = config
         CurrentPlayer = player1
         OtherPlayer = player2
+        Deck = Week35.birdDeck
+        Tray = []
+        Birdfeeder = []
     }
     let (winner, score) = loop game
     printfn "Congratulations %s! You had %i points!" winner.Name score

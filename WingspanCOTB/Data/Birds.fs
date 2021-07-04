@@ -64,6 +64,16 @@ module Birds =
         Characteristics = [Color; BodyPart]
     }
 
+    let ScissorTailedFlycatcher = {
+        Name = "Scissor-Tailed Flycatcher"
+        Habitats = [Grassland]
+        FoodCosts = [Food.Invertebrate; Food.Invertebrate; Food.Fruit]
+        Points = 8
+        Nest = Garden
+        Wingspan = 38
+        Characteristics = [BodyPart]
+    }
+
     let TreeSwallow = {
         Name = "Tree Swallow"
         Habitats = [Ocean]
