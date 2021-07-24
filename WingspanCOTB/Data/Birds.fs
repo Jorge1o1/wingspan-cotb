@@ -24,6 +24,16 @@ module Birds =
         Characteristics = [BodyPart]
     }
 
+    let CassinsFinch = {
+        Name = "Cassin's Finch"
+        Habitats = [Forest]
+        FoodCosts = [Food.Fruit; Food.Seed]
+        Points = 4
+        Nest = Garden
+        Wingspan = 30
+        Characteristics = [Person]
+    }
+
     let GreatEgret = {
         Name = "Great Egret"
         Habitats = [Ocean]
@@ -31,7 +41,7 @@ module Birds =
         Points = 7
         Nest = Platform
         Wingspan = 130
-        Characteristics = [Color; BodyPart]
+        Characteristics = []
     }
 
     let PaintedWhitestart = {
@@ -64,6 +74,26 @@ module Birds =
         Characteristics = [Color; BodyPart]
     }
 
+    let RedTailedHawk = {
+        Name = "Red-Tailed Hawk"
+        Habitats = [Forest; Grassland; Ocean]
+        FoodCosts = [Food.Rodent; Food.Rodent]
+        Points = 5
+        Nest = Platform
+        Wingspan = 124
+        Characteristics = [Color; BodyPart]
+    }
+
+    let RoseBreastedGrosbeak = {
+        Name = "Rose-Breasted Grosbeak"
+        Habitats = [Forest]
+        FoodCosts = [Food.Fruit; Food.Invertebrate; Food.Seed]
+        Points = 6
+        Nest = Garden
+        Wingspan = 33
+        Characteristics = [Color; BodyPart]
+    }
+
     let ScissorTailedFlycatcher = {
         Name = "Scissor-Tailed Flycatcher"
         Habitats = [Grassland]
@@ -74,6 +104,16 @@ module Birds =
         Characteristics = [BodyPart]
     }
 
+    let SongSparrow = {
+        Name = "Song Sparrow"
+        Habitats = [Forest; Grassland; Ocean]
+        FoodCosts = [Food.Wild] //TODO: not actually wild
+        Points = 0
+        Nest = Garden
+        Wingspan = 20
+        Characteristics = []
+    }
+
     let TreeSwallow = {
         Name = "Tree Swallow"
         Habitats = [Ocean]
@@ -81,7 +121,7 @@ module Birds =
         Points = 3
         Nest = Box
         Wingspan = 38
-        Characteristics = [Color]
+        Characteristics = []
     }
 
     let VauxsSwift = {

@@ -51,6 +51,18 @@ module BonusCards =
                 | _ -> 0 
     }
 
+    let PrairieManager = {
+        new IBonusCard with
+            member this.Name = "Prairie Manager"
+            member this.MeetsRequirement bird = bird.Habitats = [Grassland]
+            member this.GetScore board hand =
+                let birds = getAllBirds board
+                match List.filter this.MeetsRequirement birds |> List.length with
+                | n when n >= 4 -> 8
+                | n when n >= 2 -> 3
+                | _ -> 0 
+    }
+
     let WetlandScientist = {
         new IBonusCard with
             member this.Name = "Wetland Scientist"
