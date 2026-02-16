@@ -8,7 +8,7 @@ module Bird =
         | Bowl
         | Cavity
         | Ground
-        | Wild
+        | WildNest
 
     type Habitat =
         | Forest

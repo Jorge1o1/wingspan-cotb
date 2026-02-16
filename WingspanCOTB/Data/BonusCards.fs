@@ -48,7 +48,7 @@ module BonusCards =
             member this.Name = "Nest Box Builder"
 
             member this.MeetsRequirement bird =
-                (bird.Nest = Cavity || bird.Nest = Wild)
+                (bird.Nest = Cavity || bird.Nest = WildNest)
 
             member this.GetScore board hand =
                 let birds = getAllBirds board

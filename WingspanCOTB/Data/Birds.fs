@@ -4,6 +4,19 @@ module Birds =
     open WingspanCOTB.Bird
     open WingspanCOTB.Food
 
+    let BlackChinnedHummingbird =
+        { Name = "Black-Chinned Hummingbird"
+          ScientificName = "Archilochus alexandri"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 2
+          Habitats = [ Forest; Grassland; Ocean ]
+          FoodCosts = [ Wild ]
+          VictoryPoints = 4
+          Nest = Bowl
+          Wingspan = 8
+          Characteristics = [] }
+
     let Brant =
         { Name = "Brant"
           ScientificName = "Branta bernicla"
@@ -178,6 +191,45 @@ module Birds =
           Nest = Cavity
           Wingspan = 38
           Characteristics = [] }
+
+    let WelcomeSwallow =
+        { Name = "Welcome Swallow"
+          ScientificName = "Hirundo neoxena"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 5
+          Habitats = [ Ocean; Grassland ]
+          FoodCosts = [ SpecificFood Food.Invertebrate; SpecificFood Food.Invertebrate ]
+          VictoryPoints = 1
+          Nest = WildNest
+          Wingspan = 28
+          Characteristics = [] }
+
+    let WhiteBreastedNuthatch =
+        { Name = "White-Breasted Nuthatch"
+          ScientificName = "Sitta carolinensis"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Invertebrate; SpecificFood Food.Seed ]
+          VictoryPoints = 2
+          Nest = Cavity
+          Wingspan = 28
+          Characteristics = [] }
+
+    let WoodDuck =
+        { Name = "Wood Duck"
+          ScientificName = "Aix sponsa"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 4
+          Habitats = [ Forest; Ocean ]
+          FoodCosts = [ SpecificFood Food.Seed; SpecificFood Food.Fruit ]
+          VictoryPoints = 4
+          Nest = Cavity
+          Wingspan = 76
+          Characteristics = [ Color ] }
 
     let VauxsSwift =
         { Name = "Vaux's Swift"

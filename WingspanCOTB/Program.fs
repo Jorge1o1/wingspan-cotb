@@ -15,9 +15,9 @@ let main argv =
     Log.Information "Starting WingspanCOTB application..."
 
     let config =
-        { StartingChoices = Week35.startingChoices
-          BonusCardChoices = Week35.bonusCardChoices
-          BirdfeederSeries = Week35.birdfeeder }
+        { StartingChoices = Week20268.startingChoices
+          BonusCardChoices = Week20268.bonusCardChoices
+          BirdfeederSeries = Week20268.birdfeeder }
     // let player1 = { HumanPlayer.Name = "Jorge"; Board = Board.empty; Hand = []; Supply = []; BonusCards = [] }
     let player1 =
         { RandomPlayer.Name = "RND"
@@ -26,14 +26,14 @@ let main argv =
 
     let player2 =
         { AutomaPlayer.Name = "QT-1"
-          Moves = Week35.automaMoves }
+          Moves = Week20268.automaMoves }
 
     let game =
-        { Phase = PickBirdsAndFood(Week35.startingChoices)
+        { Phase = PickBirdsAndFood(Week20268.startingChoices)
           Config = config
           CurrentPlayer = player1
           OtherPlayer = player2
-          Deck = Week35.birdDeck
+          Deck = Week20268.birdDeck
           Tray = []
           Birdfeeder = [] }
 

@@ -20,6 +20,7 @@
     <Compile Include="Data/Birds.fs" />
     <Compile Include="Data/BonusCards.fs" />
     <Compile Include="Data/Week35.fs" />
+    <Compile Include="Data/Week20268.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

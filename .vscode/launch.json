@@ -9,12 +9,11 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/WingspanCOTB/bin/Debug/net5.0/WingspanCOTB.dll",
+            "program": "${workspaceFolder}/WingspanCOTB/bin/Debug/net10.0/WingspanCOTB.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "console": "integratedTerminal"
         }
-
     ]
 }
