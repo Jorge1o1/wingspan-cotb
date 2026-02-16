@@ -14,9 +14,7 @@ module Food =
         | Wild
 
     type FoodDie =
-        | Rodent
-        | Invertebrate
-        | Seed
-        | Fish
-        | Fruit
+        | SingleFace of Food
         | InvertebrateOrSeed
+
+    let allFoods = [ Rodent; Invertebrate; Seed; Fish; Fruit ]

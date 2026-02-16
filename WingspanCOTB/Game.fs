@@ -7,7 +7,7 @@ module Game =
     open WingspanCOTB.BonusCard
     open Serilog
 
-    type Config =
+    type GameConfig =
         { StartingChoices: StartingChoice list
           BonusCardChoices: IBonusCard list
           BirdfeederSeries: FoodDie list }
@@ -34,16 +34,17 @@ module Game =
     type FinalState = { Winner: IPlayer; Score: int }
 
     and Phase =
-        | PickBirdsAndFood of StartingChoice list
-        | PickBonusCards of IBonusCard list
+        | PickStartingBirdsAndFood of StartingChoice list
+        | PickStartingBonusCard of IBonusCard list
         | PickAction of InProgressState
-        | PickBirdPower
+        | OpponentsPickPinkPower
+        | CurrentPickBirdPower
         | EndOfTurn
         | Final of FinalState
 
     and Game =
         { Phase: Phase
-          Config: Config
+          Config: GameConfig
           CurrentPlayer: IPlayer
           OtherPlayer: IPlayer
           Deck: Bird.Bird list
@@ -80,7 +81,7 @@ module Game =
     let applyStartingChoices game choices =
         { game with
             CurrentPlayer = game.CurrentPlayer.ApplyStartingChoices(choices)
-            Phase = PickBonusCards(game.Config.BonusCardChoices) }
+            Phase = PickStartingBonusCard(game.Config.BonusCardChoices) }
 
     let applyStartingBonusCard game choice =
         { game with
@@ -95,9 +96,10 @@ module Game =
             { game with
                 CurrentPlayer = game.CurrentPlayer.ApplyAction(game, action) }
         // TODO: here modify the game's state
+        // TODO: apply pink powers if necessary
         let nextPhase =
             match game.CurrentPlayer.CanUseBirdPower(game) with
-            | true -> PickBirdPower
+            | true -> CurrentPickBirdPower
             | false -> EndOfTurn
 
         { game with Phase = nextPhase }
@@ -107,15 +109,16 @@ module Game =
         Log.Information("Entering loop with phase: {Phase}", game.Phase)
 
         match game.Phase with
-        | PickBirdsAndFood allChoices ->
+        | PickStartingBirdsAndFood allChoices ->
             let choices = game.CurrentPlayer.PromptStartingChoices(game, allChoices)
             loop (applyStartingChoices game choices)
-        | PickBonusCards allChoices ->
+        | PickStartingBonusCard allChoices ->
             let choice = game.CurrentPlayer.PromptStartingBonusCard(game, allChoices)
             loop (applyStartingBonusCard game choice)
         | PickAction pa ->
             let action = game.CurrentPlayer.PromptAction(game)
             loop (applyAction game action)
-        | PickBirdPower -> raise (System.NotImplementedException())
+        | OpponentsPickPinkPower -> raise (System.NotImplementedException())
+        | CurrentPickBirdPower -> raise (System.NotImplementedException())
         | EndOfTurn -> raise (System.NotImplementedException())
         | Final f -> (f.Winner, f.Score)

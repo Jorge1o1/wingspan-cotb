@@ -1,32 +1,84 @@
 namespace WingspanCOTB.Data
 
-module Week35 = 
+module Week35 =
     open WingspanCOTB
     open WingspanCOTB.Game
     open WingspanCOTB.Food
     open WingspanCOTB.StartingChoice
 
-    let automaBonusCard = BonusCards.Anatomist
-    let automaMoves = [
-        AutomaMove(AutomaDrawCards, AutomaRemoveFromGoal)
-        AutomaMove(AutomaLayEggs(3), AutomaAddToGoal)
-        AutomaMove(AutomaLayEggs(3), AutomaAddToGoal)
-        AutomaMove(AutomaGainFood([InvertebrateOrSeed; Invertebrate; Seed; Rodent; Fish; Fruit]), AutomaActivateAllPink)
-        AutomaMove(AutomaPlayBirds, AutomaAddToGoal)
-        AutomaMove(AutomaPlayBirds, AutomaAddToGoal)
-        AutomaMove(AutomaGainFood([Rodent; Fish; Fruit; InvertebrateOrSeed; Invertebrate; Seed]), AutomaActivateAllPink)
-        AutomaMove(AutomaDrawCards, AutomaAddToGoal)
-        AutomaMove(AutomaGainFood([InvertebrateOrSeed; Invertebrate; Seed; Rodent; Fish; Fruit]), AutomaActivateAllPink)
-    ]
-    let startingChoices = [
-        PickBird(Birds.BroadWingedHawk); PickBird(Birds.PaintedWhitestart); PickBird(Birds.Brant); 
-        PickBird(Birds.VauxsSwift); PickBird(Birds.RedBreastedMerganser); PickFood(Food.Fruit);
-        PickFood(Food.Seed); PickFood(Food.Invertebrate); PickFood(Food.Rodent); PickFood(Food.Fish)]
-    let bonusCardChoices = [ BonusCards.WetlandScientist; BonusCards.LargeBirdSpecialist ]
-    let birdfeeder = [
-        Fruit; InvertebrateOrSeed; InvertebrateOrSeed; Fish; Fish; InvertebrateOrSeed; Seed; Seed; 
-        Seed; Fish; Seed]
-    let birdDeck = [
-        Birds.YellowBelliedSapsucker; Birds.GreatEgret; Birds.TreeSwallow; Birds.PygmyNuthatch;
-        Birds.ScissorTailedFlycatcher
-    ]
+    let automaBonusCard = BonusCard.Anatomist
+
+    let automaMoves =
+        [ AutomaMove(AutomaDrawCards, AutomaRemoveFromGoal)
+          AutomaMove(AutomaLayEggs(3), AutomaAddToGoal)
+          AutomaMove(AutomaLayEggs(3), AutomaAddToGoal)
+          AutomaMove(
+              AutomaGainFood(
+                  [ InvertebrateOrSeed
+                    SingleFace Invertebrate
+                    SingleFace Seed
+                    SingleFace Rodent
+                    SingleFace Fish
+                    SingleFace Fruit ]
+              ),
+              AutomaActivateAllPink
+          )
+          AutomaMove(AutomaPlayBirds, AutomaAddToGoal)
+          AutomaMove(AutomaPlayBirds, AutomaAddToGoal)
+          AutomaMove(
+              AutomaGainFood(
+                  [ SingleFace Rodent
+                    SingleFace Fish
+                    SingleFace Fruit
+                    InvertebrateOrSeed
+                    SingleFace Invertebrate
+                    SingleFace Seed ]
+              ),
+              AutomaActivateAllPink
+          )
+          AutomaMove(AutomaDrawCards, AutomaAddToGoal)
+          AutomaMove(
+              AutomaGainFood(
+                  [ InvertebrateOrSeed
+                    SingleFace Invertebrate
+                    SingleFace Seed
+                    SingleFace Rodent
+                    SingleFace Fish
+                    SingleFace Fruit ]
+              ),
+              AutomaActivateAllPink
+          ) ]
+
+    let startingChoices =
+        [ PickBird(Bird.BroadWingedHawk)
+          PickBird(Bird.PaintedWhitestart)
+          PickBird(Bird.Brant)
+          PickBird(Bird.VauxsSwift)
+          PickBird(Bird.RedBreastedMerganser)
+          PickFood(Food.Fruit)
+          PickFood(Food.Seed)
+          PickFood(Food.Invertebrate)
+          PickFood(Food.Rodent)
+          PickFood(Food.Fish) ]
+
+    let bonusCardChoices = [ BonusCard.WetlandScientist; BonusCard.LargeBirdSpecialist ]
+
+    let birdfeeder =
+        [ SingleFace Fruit
+          InvertebrateOrSeed
+          InvertebrateOrSeed
+          SingleFace Fish
+          SingleFace Fish
+          InvertebrateOrSeed
+          SingleFace Seed
+          SingleFace Seed
+          SingleFace Seed
+          SingleFace Fish
+          SingleFace Seed ]
+
+    let birdDeck =
+        [ Bird.YellowBelliedSapsucker
+          Bird.GreatEgret
+          Bird.TreeSwallow
+          Bird.PygmyNuthatch
+          Bird.ScissorTailedFlycatcher ]
