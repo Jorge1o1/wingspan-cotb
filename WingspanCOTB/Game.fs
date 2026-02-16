@@ -5,6 +5,7 @@ module Game =
     open WingspanCOTB.Food
     open WingspanCOTB.StartingChoice
     open WingspanCOTB.BonusCard
+    open Serilog
 
     type Config =
         { StartingChoices: StartingChoice list
@@ -101,7 +102,9 @@ module Game =
 
         { game with Phase = nextPhase }
 
+
     let rec loop game =
+        Log.Information("Entering loop with phase: {Phase}", game.Phase)
 
         match game.Phase with
         | PickBirdsAndFood allChoices ->
