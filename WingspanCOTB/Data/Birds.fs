@@ -4,142 +4,203 @@ module Birds =
     open WingspanCOTB.Bird
     open WingspanCOTB.Food
 
-    let Brant = {
-        Name = "Brant"
-        Habitats = [Ocean]
-        FoodCosts = [Wild; Food.Seed]
-        Points = 3
-        Nest = Enclosure
-        Wingspan = 114
-        Characteristics = []
-    }
-    
-    let BroadWingedHawk = {
-        Name = "Broad-Winged Hawk"
-        Habitats = [Forest]
-        FoodCosts = [Food.Rodent]
-        Points = 4
-        Nest = Platform
-        Wingspan = 85
-        Characteristics = [BodyPart]
-    }
+    let Brant =
+        { Name = "Brant"
+          ScientificName = "Branta bernicla"
+          Habitats = [ Ocean ]
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 2
+          FoodCosts = [ Wild; SpecificFood Food.Seed ]
+          VictoryPoints = 3
+          Nest = Ground
+          Wingspan = 114
+          Characteristics = [] }
 
-    let CassinsFinch = {
-        Name = "Cassin's Finch"
-        Habitats = [Forest]
-        FoodCosts = [Food.Fruit; Food.Seed]
-        Points = 4
-        Nest = Garden
-        Wingspan = 30
-        Characteristics = [Person]
-    }
+    let BroadWingedHawk =
+        { Name = "Broad-Winged Hawk"
+          ScientificName = "Buteo platypterus"
+          IsPredator = true
+          IsFlocking = false
+          EggLimit = 2
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Rodent ]
+          VictoryPoints = 4
+          Nest = Platform
+          Wingspan = 85
+          Characteristics = [ BodyPart ] }
 
-    let GreatEgret = {
-        Name = "Great Egret"
-        Habitats = [Ocean]
-        FoodCosts = [Food.Fish; Food.Fish; Food.Rodent]
-        Points = 7
-        Nest = Platform
-        Wingspan = 130
-        Characteristics = []
-    }
+    let CaliforniaCondor =
+        { Name = "California Condor"
+          ScientificName = "Gymnogyps californianus"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 1
+          Habitats = [ Grassland; Forest; Ocean ]
+          FoodCosts = []
+          VictoryPoints = 1
+          Nest = Platform
+          Wingspan = 277
+          Characteristics = [ Geography ] }
 
-    let PaintedWhitestart = {
-        Name = "Painted Whitestart"
-        Habitats = [Forest]
-        FoodCosts = [Food.Invertebrate]
-        Points = 1
-        Nest = Enclosure
-        Wingspan = 22
-        Characteristics = [Color]
-    }
+    let CassinsFinch =
+        { Name = "Cassin's Finch"
+          ScientificName = "Haemorhous cassinii"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Fruit; SpecificFood Food.Seed ]
+          VictoryPoints = 4
+          Nest = Bowl
+          Wingspan = 30
+          Characteristics = [ Person ] }
 
-    let PygmyNuthatch = {
-        Name = "Pygmy Nuthatch"
-        Habitats = [Forest]
-        FoodCosts = [Food.Invertebrate; Food.Seed]
-        Points = 2
-        Nest = Box
-        Wingspan = 20
-        Characteristics = []
-    }
+    let GreatEgret =
+        { Name = "Great Egret"
+          ScientificName = "Ardea alba"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Ocean ]
+          FoodCosts = [ SpecificFood Food.Fish; SpecificFood Food.Fish; SpecificFood Food.Rodent ]
+          VictoryPoints = 7
+          Nest = Platform
+          Wingspan = 130
+          Characteristics = [] }
 
-    let RedBreastedMerganser = {
-        Name = "Red-Breasted Merganser"
-        Habitats = [Ocean]
-        FoodCosts = [Food.Invertebrate; Food.Fish]
-        Points = 3
-        Nest = Enclosure
-        Wingspan = 78
-        Characteristics = [Color; BodyPart]
-    }
+    let PaintedWhitestart =
+        { Name = "Painted Whitestart"
+          ScientificName = "Myioborus pictus"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Invertebrate ]
+          VictoryPoints = 1
+          Nest = Ground
+          Wingspan = 22
+          Characteristics = [ Color ] }
 
-    let RedTailedHawk = {
-        Name = "Red-Tailed Hawk"
-        Habitats = [Forest; Grassland; Ocean]
-        FoodCosts = [Food.Rodent; Food.Rodent]
-        Points = 5
-        Nest = Platform
-        Wingspan = 124
-        Characteristics = [Color; BodyPart]
-    }
+    let PygmyNuthatch =
+        { Name = "Pygmy Nuthatch"
+          ScientificName = "Sitta pygmaea"
+          IsPredator = false
+          IsFlocking = true
+          EggLimit = 2
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Invertebrate; SpecificFood Food.Seed ]
+          VictoryPoints = 2
+          Nest = Cavity
+          Wingspan = 20
+          Characteristics = [] }
 
-    let RoseBreastedGrosbeak = {
-        Name = "Rose-Breasted Grosbeak"
-        Habitats = [Forest]
-        FoodCosts = [Food.Fruit; Food.Invertebrate; Food.Seed]
-        Points = 6
-        Nest = Garden
-        Wingspan = 33
-        Characteristics = [Color; BodyPart]
-    }
+    let RedBreastedMerganser =
+        { Name = "Red-Breasted Merganser"
+          ScientificName = "Mergus serrator"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 4
+          Habitats = [ Ocean ]
+          FoodCosts = [ SpecificFood Food.Invertebrate; SpecificFood Food.Fish ]
+          VictoryPoints = 3
+          Nest = Ground
+          Wingspan = 78
+          Characteristics = [ Color; BodyPart ] }
 
-    let ScissorTailedFlycatcher = {
-        Name = "Scissor-Tailed Flycatcher"
-        Habitats = [Grassland]
-        FoodCosts = [Food.Invertebrate; Food.Invertebrate; Food.Fruit]
-        Points = 8
-        Nest = Garden
-        Wingspan = 38
-        Characteristics = [BodyPart]
-    }
+    let RedTailedHawk =
+        { Name = "Red-Tailed Hawk"
+          ScientificName = "Buteo jamaicensis"
+          IsPredator = true
+          IsFlocking = false
+          EggLimit = 2
+          Habitats = [ Forest; Grassland; Ocean ]
+          FoodCosts = [ SpecificFood Food.Rodent; SpecificFood Food.Rodent ]
+          VictoryPoints = 5
+          Nest = Platform
+          Wingspan = 124
+          Characteristics = [ Color; BodyPart ] }
 
-    let SongSparrow = {
-        Name = "Song Sparrow"
-        Habitats = [Forest; Grassland; Ocean]
-        FoodCosts = [Food.Wild] //TODO: not actually wild
-        Points = 0
-        Nest = Garden
-        Wingspan = 20
-        Characteristics = []
-    }
+    let RoseBreastedGrosbeak =
+        { Name = "Rose-Breasted Grosbeak"
+          ScientificName = "Pheucticus ludovicianus"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Forest ]
+          FoodCosts =
+            [ SpecificFood Food.Fruit
+              SpecificFood Food.Invertebrate
+              SpecificFood Food.Seed ]
+          VictoryPoints = 6
+          Nest = Bowl
+          Wingspan = 33
+          Characteristics = [ Color; BodyPart ] }
 
-    let TreeSwallow = {
-        Name = "Tree Swallow"
-        Habitats = [Ocean]
-        FoodCosts = [Food.Fruit; Food.Invertebrate]
-        Points = 3
-        Nest = Box
-        Wingspan = 38
-        Characteristics = []
-    }
+    let ScissorTailedFlycatcher =
+        { Name = "Scissor-Tailed Flycatcher"
+          ScientificName = "Tyrannus forficatus"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 2
+          Habitats = [ Grassland ]
+          FoodCosts =
+            [ SpecificFood Food.Invertebrate
+              SpecificFood Food.Invertebrate
+              SpecificFood Food.Fruit ]
+          VictoryPoints = 8
+          Nest = Bowl
+          Wingspan = 38
+          Characteristics = [ BodyPart ] }
 
-    let VauxsSwift = {
-        Name = "Vaux's Swift"
-        Habitats = [Forest]
-        FoodCosts = [Food.Invertebrate]
-        Points = 2
-        Nest = Box
-        Wingspan = 31
-        Characteristics = [Person]
-    }
+    let SongSparrow =
+        { Name = "Song Sparrow"
+          ScientificName = "Melospiza melodia"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Forest; Grassland; Ocean ]
+          FoodCosts = [ PickOneOf [ Food.Invertebrate; Food.Seed; Food.Fruit ] ]
+          VictoryPoints = 0
+          Nest = Bowl
+          Wingspan = 20
+          Characteristics = [] }
 
-    let YellowBelliedSapsucker = {
-        Name = "Yellow-Bellied Sapsucker"
-        Habitats = [Forest]
-        FoodCosts = [Food.Invertebrate; Food.Fruit]
-        Points = 3
-        Nest = Box
-        Wingspan = 41
-        Characteristics = [Color; BodyPart]
-    }
+    let TreeSwallow =
+        { Name = "Tree Swallow"
+          ScientificName = "Tachycineta bicolor"
+          IsPredator = false
+          IsFlocking = true
+          EggLimit = 4
+          Habitats = [ Ocean ]
+          FoodCosts = [ SpecificFood Food.Fruit; SpecificFood Food.Invertebrate ]
+          VictoryPoints = 3
+          Nest = Cavity
+          Wingspan = 38
+          Characteristics = [] }
+
+    let VauxsSwift =
+        { Name = "Vaux's Swift"
+          ScientificName = "Chaetura vauxi"
+          IsPredator = false
+          IsFlocking = true
+          EggLimit = 3
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Invertebrate ]
+          VictoryPoints = 2
+          Nest = Cavity
+          Wingspan = 31
+          Characteristics = [ Person ] }
+
+    let YellowBelliedSapsucker =
+        { Name = "Yellow-Bellied Sapsucker"
+          ScientificName = "Sphyrapicus varius"
+          IsPredator = false
+          IsFlocking = false
+          EggLimit = 3
+          Habitats = [ Forest ]
+          FoodCosts = [ SpecificFood Food.Invertebrate; SpecificFood Food.Fruit ]
+          VictoryPoints = 3
+          Nest = Cavity
+          Wingspan = 41
+          Characteristics = [ Color; BodyPart ] }

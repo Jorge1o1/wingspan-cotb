@@ -7,9 +7,13 @@ module Food =
         | Seed
         | Fish
         | Fruit
+
+    type FoodCost =
+        | SpecificFood of Food
+        | PickOneOf of Food list
         | Wild
-    
-    type FoodDie = 
+
+    type FoodDie =
         | Rodent
         | Invertebrate
         | Seed
